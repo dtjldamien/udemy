@@ -1,3 +1,0 @@
-module.exports={
-    MONGOURI:"mongodb+srv://dtjldamien:<password>@udemy-mern-96ooo.mongodb.net/test?retryWrites=true&w=majority"
-}
