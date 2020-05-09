@@ -33,7 +33,7 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      
+
       <div className="gallery">
         <img
           className="item"

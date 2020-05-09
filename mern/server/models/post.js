@@ -13,7 +13,7 @@ const postSchema = new mongoose.Schema({
     // storing photo url
     photo:{
         type: String,
-        default: "No photo!"
+        required: true
     },
     postedBy:{
         type: ObjectId,
