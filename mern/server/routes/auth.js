@@ -8,7 +8,7 @@ const { JWT_SECRET } = require("../keys.js");
 const requireLogin = require("../middleware/require-login");
 
 router.get("/", (req, res) => {
-  res.send("Hello!");
+  res.send("Welcome to the server for the Udemy MERN web application!");
 });
 
 router.post("/signup", (req, res) => {
