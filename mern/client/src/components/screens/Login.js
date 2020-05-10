@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import M from "materialize-css";
+import { UserContext } from "../../App";
 
 const Login = () => {
+  const { state, dispatch } = useContext(UserContext);
   const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,15 +36,21 @@ const Login = () => {
         if (data.error) {
           M.toast({ html: data.error, classes: "#c62828 red darken-3" });
         } else {
+          // setting user and token on local storage so that we can access protected resources
+          localStorage.setItem("jwt", data.token);
+          localStorage.setItem("user", JSON.stringify(data.user));
+          dispatch({ type: "USER", payload: data.user });
+
           M.toast({
             html: "Signed in successfully!",
             classes: "#43a047 green darken-3",
           });
+
           history.push("/");
         }
       })
       .catch((err) => {
-        console.log(err);
+        M.toast({ html: err, classes: "#c62828 red darken-3" });
       });
   };
 
@@ -58,7 +66,7 @@ const Login = () => {
         />
 
         <input
-          type="text"
+          type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}

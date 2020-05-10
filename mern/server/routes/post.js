@@ -26,7 +26,7 @@ router.post('/createPost', requireLogin, (req, res) => {
         })
 })
 
-router.get('/allPosts', (req, res) => {
+router.get('/allPosts', requireLogin, (req, res) => {
     Post.find()
         // shows postedby with all user details, instead of just user id
         .populate("postedBy", "_id name")

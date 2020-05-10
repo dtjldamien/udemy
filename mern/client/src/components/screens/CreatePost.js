@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import M from "materialize-css";
 
@@ -10,6 +10,7 @@ const CreatePost = () => {
   const [url, setUrl] = useState("");
 
   const postDetails = () => {
+    // post onto the cloudinary first to store the photo
     const data = new FormData();
     data.append("file", image);
     data.append("upload_preset", "udemy-mern");
@@ -26,34 +27,41 @@ const CreatePost = () => {
       .catch((err) => {
         console.log(err);
       });
-    fetch("/createPost", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title,
-        body,
-        url,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if (data.error) {
-          M.toast({ html: data.error, classes: "#c62828 red darken-3" });
-        } else {
-          M.toast({
-            html: "Successfully created a new post!",
-            classes: "#43a047 green darken-3",
-          });
-          history.push("/");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
+
+  useEffect(() => {
+    if (url) {
+      // post to mongodb after photo has been uploaded
+      fetch("/createPost", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+        body: JSON.stringify({
+          title,
+          body,
+          photo: url,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.error) {
+            M.toast({ html: data.error, classes: "#c62828 red darken-3" });
+          } else {
+            M.toast({
+              html: "Successfully created a new post!",
+              classes: "#43a047 green darken-3",
+            });
+            history.push("/");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [url]); // when url is updated
 
   return (
     <div
