@@ -2,20 +2,26 @@ const mongoose = require('mongoose')
 const { ObjectId } = mongoose.Schema.Types
 
 const postSchema = new mongoose.Schema({
-    title:{
+    title: {
         type: String,
         required: true
     },
-    body:{
+    body: {
         type: String,
         required: true
     },
     // storing photo url
-    photo:{
+    photo: {
         type: String,
-        default: "No photo!"
+        required: true
     },
-    postedBy:{
+    // who liked the photo
+    likes: [{ type: ObjectId, ref: "User" }],
+    comments: [{
+        text: String,
+        postedBy: { type: ObjectId, ref: "User" }
+    }],
+    postedBy: {
         type: ObjectId,
         ref: "User"
     }
