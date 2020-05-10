@@ -10,6 +10,7 @@ import Profile from "./components/screens/Profile";
 import Signup from "./components/screens/Signup";
 import CreatePost from "./components/screens/CreatePost";
 import UserProfile from "./components/screens/UserProfile";
+import FollowingPosts from "./components/screens/FollowingPosts"
 
 import { reducer, initialState } from "./reducers/userReducer";
 
@@ -54,6 +55,10 @@ const Routing = () => {
 
       <Route path="/profile/:userId">
         <UserProfile />
+      </Route>
+
+      <Route path="/followingPosts">
+        <FollowingPosts />
       </Route>
 
     </Switch>

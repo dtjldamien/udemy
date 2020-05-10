@@ -12,7 +12,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/signup", (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, url } = req.body;
   if (!name || !email || !password) {
     res
       .status(422)
@@ -32,6 +32,7 @@ router.post("/signup", (req, res) => {
           name,
           email,
           password: hashedpassword,
+          displayPhoto: url
         });
         user
           .save()
@@ -65,8 +66,8 @@ router.post("/login", (req, res) => {
         if (doMatch) {
           // id from mongodb, sign to ensure that it is the user
           const token = jwt.sign({ _id: savedUser._id }, JWT_SECRET);
-          const { _id, name, email } = savedUser;
-          res.json({ token, user: { _id, name, email } });
+          const { _id, name, email, followers, following, displayPhoto } = savedUser;
+          res.json({ token, user: { _id, name, email, followers, following, displayPhoto } });
         } else {
           return res.status(422).json({ error: "Invalid password!" });
         }

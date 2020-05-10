@@ -29,7 +29,21 @@ router.post('/createPost', requireLogin, (req, res) => {
 router.get('/allPosts', requireLogin, (req, res) => {
     Post.find()
         // shows postedby with all user details, instead of just user id
-        .populate("postedBy", "_id name")
+        .populate("postedBy", "_id name displayPhoto")
+        .populate("comments.postedBy", "_id name")
+        .then(posts => {
+            res.json({ posts })
+        })
+        .catch(err => {
+            console.log(err)
+        })
+})
+
+router.get('/getFollowingPosts', requireLogin, (req, res) => {
+    // if postedBy in following
+    Post.find({ postedBy: { $in: req.user.following } })
+        // shows postedby with all user details, instead of just user id
+        .populate("postedBy", "_id name displayPhoto")
         .populate("comments.postedBy", "_id name")
         .then(posts => {
             res.json({ posts })

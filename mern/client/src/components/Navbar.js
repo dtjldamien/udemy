@@ -17,11 +17,14 @@ const NavBar = () => {
           <Link to="/create">Create Post</Link>
         </li>,
         <li>
+          <Link to="/followingPosts">Feed</Link>
+        </li>,
+        <li>
           <button
             className="btn waves-effect waves-light #c62828 red darken-3"
             onClick={() => {
               localStorage.clear();
-              dispatch({ type: "CLEAR"});
+              dispatch({ type: "CLEAR" });
               history.push('login')
               M.toast({ html: "Signed out successfully!", classes: "#c62828 red darken-3" });
             }}
