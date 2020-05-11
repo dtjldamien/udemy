@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
     },
     displayPhoto: {
         type: String,
-        default: "https://res-console.cloudinary.com/dtjldamien/thumbnails/v1/image/upload/v1589129853/SU1HXzA0MzdfdzFjaWxj/preview"
+        default: "https://res.cloudinary.com/dtjldamien/image/upload/v1589170042/photo_2020-02-06_17-25-23_pal8z5.jpg"
     },
     followers: [{
         type: ObjectId,
