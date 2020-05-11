@@ -2,17 +2,27 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
+const crypto = require('crypto')
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { JWT_SECRET } = require("../keys.js");
+const { JWT_SECRET } = require("../config/keys");
 const requireLogin = require("../middleware/require-login");
+const nodemailer = require('nodemailer')
+const sendgridTransport = require('nodemailer-sendgrid-transport')
+const { SEND_GRID } = require("../config/keys");
+
+const transporter = nodemailer.createTransport(sendgridTransport({
+  auth: {
+    api_key: SEND_GRID
+  }
+}))
 
 router.get("/", (req, res) => {
-  res.send("Hello!");
+  res.send("Welcome to the server for the Udemy MERN web application!");
 });
 
 router.post("/signup", (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, url } = req.body;
   if (!name || !email || !password) {
     res
       .status(422)
@@ -32,10 +42,17 @@ router.post("/signup", (req, res) => {
           name,
           email,
           password: hashedpassword,
+          displayPhoto: url
         });
         user
           .save()
           .then((user) => {
+            transporter.sendMail({
+              to: user.mail,
+              from: "no-reply@dtjldamien.com",
+              subject: "Welcome to Damien's Instagram Clone!",
+              html: "<h1>Welcome to Damien's Instagram Clone!</h1>"
+            })
             res.json({ message: "Signed up successfully!" });
           })
           .catch((err) => {
@@ -65,8 +82,8 @@ router.post("/login", (req, res) => {
         if (doMatch) {
           // id from mongodb, sign to ensure that it is the user
           const token = jwt.sign({ _id: savedUser._id }, JWT_SECRET);
-          const { _id, name, email } = savedUser;
-          res.json({ token, user: { _id, name, email } });
+          const { _id, name, email, followers, following, displayPhoto } = savedUser;
+          res.json({ token, user: { _id, name, email, followers, following, displayPhoto } });
         } else {
           return res.status(422).json({ error: "Invalid password!" });
         }
@@ -81,5 +98,14 @@ router.post("/login", (req, res) => {
 router.get("/protected", requireLogin, (req, res) => {
   res.send("Hello User!");
 });
+
+router.post("/resetPassword", requireLogin, (req, res) => {
+  crypto.randomBytes(32, (err, buffer) => {
+    if (err) {
+      console.log(err)
+    }
+    const token = buffer.toString("hex")
+  })
+})
 
 module.exports = router;
