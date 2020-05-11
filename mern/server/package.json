@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "Instagram clone to learn the MERN stack",
+  "description": "Daygram developed using MERN",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -14,8 +14,6 @@
     "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.12",
-    "nodemailer": "^6.4.6",
-    "nodemailer-sendgrid-transport": "^0.2.0"
+    "mongoose": "^5.9.12"
   }
 }

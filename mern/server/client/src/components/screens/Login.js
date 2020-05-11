@@ -57,7 +57,7 @@ const Login = () => {
   return (
     <div className="my-card">
       <div className="card auth-card input-field">
-        <h2>Instagram</h2>
+        <h2>Daygram</h2>
         <input
           type="text"
           placeholder="Email"

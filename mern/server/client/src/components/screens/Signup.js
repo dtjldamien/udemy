@@ -78,7 +78,7 @@ const Signup = () => {
   return (
     <div className="my-card">
       <div className="card auth-card input-field">
-        <h2>Instagram</h2>
+        <h2 style={{ margin: "3px auto" }}>Daygram</h2>
         <input
           type="text"
           placeholder="Name"

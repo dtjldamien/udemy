@@ -1,25 +1,34 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { UserContext } from "../App";
 import M from "materialize-css";
 
 const NavBar = () => {
+  const searchModal = useRef(null)
   const { state, dispatch } = useContext(UserContext);
   const history = useHistory();
+
+  useEffect(() => {
+    M.Modal.init(searchModal.current)
+  }, [])
+
   const renderList = () => {
     // navigation control flow
     if (state) {
       return [
-        <li>
+        <li key="1">
+          <i class="large material-icons modal-trigger" style={{ colour: "black" }}>search</i>
+        </li>,
+        <li key="2">
           <Link to="/profile">Profile</Link>
         </li>,
-        <li>
+        <li key="3">
           <Link to="/create">Create Post</Link>
         </li>,
-        <li>
+        <li key="4">
           <Link to="/followingPosts">Feed</Link>
         </li>,
-        <li>
+        <li key="5">
           <button
             className="btn waves-effect waves-light #c62828 red darken-3"
             onClick={() => {
@@ -35,10 +44,10 @@ const NavBar = () => {
       ];
     } else {
       return [
-        <li>
+        <li key="6">
           <Link to="/login">Login</Link>
         </li>,
-        <li>
+        <li key="7">
           <Link to="/signup">Sign Up</Link>
         </li>,
       ];
@@ -51,11 +60,21 @@ const NavBar = () => {
     <nav>
       <div className="nav-wrapper" style={{ color: "black" }}>
         <Link to={state ? "/" : "/login"} className="brand-logo left">
-          Udemy MERN
+          Daygram
         </Link>
         <ul id="nav-mobile" className="right">
           {renderList()}
         </ul>
+      </div>
+
+      <div id="modal1" className="modal" ref={searchModal}>
+        <div className="modal-content">
+          <h4>Modal Header</h4>
+          <p>A bunch of text</p>
+        </div>
+        <div className="modal-footer">
+          <button className="modal-close waves-effect waves-green btn-flat">Agree</button>
+        </div>
       </div>
     </nav>
   );

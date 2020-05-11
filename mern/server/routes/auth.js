@@ -7,15 +7,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config/keys");
 const requireLogin = require("../middleware/require-login");
-const nodemailer = require('nodemailer')
-const sendgridTransport = require('nodemailer-sendgrid-transport')
 const { SEND_GRID } = require("../config/keys");
-
-const transporter = nodemailer.createTransport(sendgridTransport({
-  auth: {
-    api_key: SEND_GRID
-  }
-}))
+const sgMail = require('@sendgrid/mail');
 
 router.get("/", (req, res) => {
   res.send("Welcome to the server for the Udemy MERN web application!");
@@ -47,12 +40,14 @@ router.post("/signup", (req, res) => {
         user
           .save()
           .then((user) => {
-            transporter.sendMail({
-              to: user.mail,
-              from: "no-reply@dtjldamien.com",
-              subject: "Welcome to Damien's Instagram Clone!",
-              html: "<h1>Welcome to Damien's Instagram Clone!</h1>"
+            sgMail.setApiKey(SEND_GRID);
+            const msg = ({
+              to: user.email,
+              from: "no-reply@daygram.com",
+              subject: "Welcome to Daygram!",
+              html: "<h1>Welcome to Daygram!</h1>"
             })
+            sgMail.send(msg);
             res.json({ message: "Signed up successfully!" });
           })
           .catch((err) => {

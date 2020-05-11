@@ -78,4 +78,14 @@ router.put('/updateDp', requireLogin, (req, res) => {
         })
 })
 
+router.post('/searchUsers', (req, res) => {
+    let userPattern = new RegExp("^" + req.body.query)
+    User.find({ email: { $regex: userPattern } })
+        .then(user => {
+            res.json({ user })
+        }).catch(err => {
+            console.log(err)
+        })
+})
+
 module.exports = router;

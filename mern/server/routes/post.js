@@ -31,6 +31,8 @@ router.get('/allPosts', requireLogin, (req, res) => {
         // shows postedby with all user details, instead of just user id
         .populate("postedBy", "_id name displayPhoto")
         .populate("comments.postedBy", "_id name")
+        // -createAt sorts in descending order
+        .sort('-createdAt')
         .then(posts => {
             res.json({ posts })
         })
@@ -45,6 +47,8 @@ router.get('/getFollowingPosts', requireLogin, (req, res) => {
         // shows postedby with all user details, instead of just user id
         .populate("postedBy", "_id name displayPhoto")
         .populate("comments.postedBy", "_id name")
+        // -createAt sorts in descending order
+        .sort('-createdAt')
         .then(posts => {
             res.json({ posts })
         })
