@@ -1,5 +1,5 @@
 module.exports={
-    MONGOURI:"mongodb+srv://dtjldamien:<password>@udemy-mern-96ooo.mongodb.net/test?retryWrites=true&w=majority",
+    MONGOURI:"<MONGODB URI>",
     JWT_SECRET: "<any string>",
 	SEND_GRID: "API"
 }
