@@ -14,3 +14,6 @@ bin-release/
 *.apk
 
 mern/exercise-tracker/backend/.env
+
+# keys
+mern/daygram/config/dev.js
